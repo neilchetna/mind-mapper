@@ -1,0 +1,8 @@
+<script lang="ts">
+	import type { Map } from '$lib/modles';
+	const { map, redirectPath }: { map: Map; redirectPath: string } = $props();
+</script>
+
+<a href={redirectPath} class="bg-card dark:border-input/29 w-56 rounded-sm border p-4">
+	<p class="truncate text-xs">{map.title}</p>
+</a>
