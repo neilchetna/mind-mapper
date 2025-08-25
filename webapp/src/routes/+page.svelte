@@ -1,7 +1,7 @@
 <script>
 	import { Button } from '$lib/components/ui/button';
-	import { toggleMode, theme } from 'mode-watcher';
-	import { SignedIn, SignedOut, SignInButton, UserButton, UserProfile } from 'svelte-clerk';
+	import { toggleMode } from 'mode-watcher';
+	import { SignedIn, SignedOut, SignInButton, UserButton } from 'svelte-clerk';
 </script>
 
 <div class="m-auto w-fit pt-32">
