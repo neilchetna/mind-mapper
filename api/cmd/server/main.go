@@ -6,6 +6,7 @@ import (
 	"log"
 	"os"
 
+	"github.com/clerk/clerk-sdk-go/v2"
 	"github.com/joho/godotenv"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
@@ -43,10 +44,10 @@ func connectToDatabase() (*gorm.DB, error) {
 	return db, nil
 }
 
-// func establishClerkClient() {
-// 	clerkSecret := os.Getenv("CLERK_SECRET_KEY")
-// 	clerk.SetKey(clerkSecret)
-// }
+func establishClerkClient() {
+	clerkSecret := os.Getenv("CLERK_SECRET_KEY")
+	clerk.SetKey(clerkSecret)
+}
 
 func startHTTPServer(db *gorm.DB) error {
 	e := echo.New()
@@ -74,7 +75,7 @@ func main() {
 	defer pool.Close()
 
 	// Init Clerk Client
-	// establishClerkClient()
+	establishClerkClient()
 
 	// Build and start HTTP server
 	if err := startHTTPServer(db); err != nil {

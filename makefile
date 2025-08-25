@@ -8,7 +8,7 @@ start-go:
 	cd api && air | sed 's/^/[GO] /'
 
 migrations:
-	cd api && go run migrations/main.go
+	cd api && go run cmd/migrations/main.go
 
 # [WEBAPP]
 start-next:

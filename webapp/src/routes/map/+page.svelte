@@ -1,5 +1,6 @@
 <script lang="ts">
 	import MapCard from '$lib/components/maps-list-page/map-card.svelte';
+	import Topbar from '$lib/components/maps-list-page/topbar.svelte';
 	import { Skeleton } from '$lib/components/ui/skeleton';
 	import { mapsManager } from '$lib/manager/maps-manager.svelte';
 	import type { Map } from '$lib/modles';
@@ -30,6 +31,7 @@
 	}
 </script>
 
+<Topbar />
 {#if loadingPreview}
 	<div class="flex gap-4 p-8">
 		<Skeleton class="h-12 w-56 rounded" />
