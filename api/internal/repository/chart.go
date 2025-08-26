@@ -36,3 +36,14 @@ func (r *ChartRepository) GetCharts(ctx context.Context, userId uuid.UUID) ([]mo
 
 	return charts, nil
 }
+
+func (r *ChartRepository) GetChartById(ctx context.Context, chartId uuid.UUID, userId uuid.UUID) (models.Chart, error) {
+	var chart models.Chart
+	res := r.db.WithContext(ctx).Where("user_id = ?", userId).First(&chart, "id = ?", chartId)
+
+	if res.Error != nil {
+		return chart, res.Error
+	}
+
+	return chart, nil
+}

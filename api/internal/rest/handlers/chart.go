@@ -2,17 +2,20 @@ package handlers
 
 import (
 	"context"
+	"errors"
 	"net/http"
 
 	"github.com/google/uuid"
 	"github.com/labstack/echo/v4"
 	"github.com/neilchetna/mind-mapper/internal/models"
 	"github.com/neilchetna/mind-mapper/pkg/utils"
+	"gorm.io/gorm"
 )
 
 type ChartService interface {
 	CreateChart(ctx context.Context, chart *models.Chart) error
 	GetCharts(ctx context.Context, userId uuid.UUID) ([]models.Chart, error)
+	GetChart(ctx context.Context, chartId uuid.UUID, userId uuid.UUID) (models.Chart, error)
 }
 
 type ChartHandler struct {
@@ -24,6 +27,7 @@ func NewChartHanlder(g *echo.Group, svc ChartService) {
 
 	g.POST("", handler.Create)
 	g.GET("", handler.Query)
+	g.GET("/:id", handler.Get)
 }
 
 func (h *ChartHandler) Create(c echo.Context) error {
@@ -60,4 +64,23 @@ func (h *ChartHandler) Query(c echo.Context) error {
 
 
 	return c.JSON(http.StatusOK, charts)
+}
+
+func (h *ChartHandler) Get(c echo.Context) error {
+	chartId, err := utils.ParseUUIDParam(c, "id")
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, "Invalid chart ID")
+	}
+
+	ctx := c.Request().Context()
+	user := utils.GetReqUser(c)
+	chart, err := h.Service.GetChart(ctx, chartId, user.ID)
+
+	if errors.Is(err, gorm.ErrRecordNotFound) {
+		return c.JSON(http.StatusAccepted, "Chart not found")
+	} else if err != nil {
+		return c.JSON(http.StatusInternalServerError, err.Error())
+	}
+
+	return c.JSON(http.StatusOK, chart)
 }
