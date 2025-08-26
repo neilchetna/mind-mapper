@@ -1,27 +1,30 @@
 <script lang="ts">
 	import FlowCanvas from '$lib/components/map-page/flow-canvas.svelte';
 	import Topbar from '$lib/components/map-page/topbar.svelte';
-	import { mapDetailsManager } from '$lib/manager/map-details-manager.svelte';
-	let loadingPreview = $state<boolean>(false);
-	let showError = $state<boolean>(false);
+	import { MapDetailsManager } from '$lib/manager/map-details-manager.svelte.js';
+	import { MapLoading } from '$lib/utils/types/loading.js';
+	import { useClerkContext } from 'svelte-clerk';
 
-	const getMap = async () => {
-		try {
-			loadingPreview = true;
-			await mapDetailsManager.init('');
-		} catch (error) {
-			showError = true;
-		} finally {
-			loadingPreview = false;
+	const { params } = $props();
+	const m = new MapDetailsManager();
+	const ctx = useClerkContext();
+	const loading = $derived(m.loading[MapLoading.FetchingMapById]);
+
+	const init = async () => {
+		const token = await ctx.session?.getToken();
+		if (typeof token === 'string') {
+			m.loadSDK(token);
 		}
+
+		m.loadMapDetails(params.id);
 	};
 
 	$effect(() => {
-		getMap();
+		init();
 	});
 </script>
 
-{#if !loadingPreview && mapDetailsManager.map}
-	<Topbar title={mapDetailsManager.map?.title} />
+{#if !loading && m.map}
+	<Topbar title={m.map.title} />
 	<FlowCanvas />
 {/if}

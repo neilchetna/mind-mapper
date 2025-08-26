@@ -12,6 +12,7 @@ import (
 type ChartRepository interface {
 	CreateChart(ctx context.Context, chart *models.Chart) error
 	GetCharts(ctx context.Context, userId uuid.UUID) ([]models.Chart, error)
+	GetChartById(ctx context.Context, chartId uuid.UUID, userId uuid.UUID) (models.Chart, error)
 } 
 
 type ChartService struct {
@@ -25,6 +26,10 @@ func (svc *ChartService) CreateChart(ctx context.Context, chart *models.Chart) e
 func (svc *ChartService) GetCharts(ctx context.Context, userId uuid.UUID) ([]models.Chart, error) {
 	return svc.r.GetCharts(ctx, userId)
 }
+
+func (svc *ChartService) GetChart(ctx context.Context, chartId uuid.UUID, userId uuid.UUID) (models.Chart, error) {
+	return svc.r.GetChartById(ctx, chartId, userId)
+} 
 
 func ChartServiceBuilder(db *gorm.DB) *ChartService {
 	chartRepo := repository.ChartRepositoryBuilder(db)
