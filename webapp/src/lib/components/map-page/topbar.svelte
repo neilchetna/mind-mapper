@@ -5,7 +5,7 @@
 	const { title }: { title: string } = $props();
 </script>
 
-<div class="bg-background dark:border-input/30 flex items-center gap-4 border px-4 py-2">
+<div class="bg-accent dark:border-input/30 flex items-center gap-4 border px-4 py-2">
 	<Button size="icon" variant="outline" href="/map"><IconArrowLeft /></Button>
 	<p>{title}</p>
 </div>

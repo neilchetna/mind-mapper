@@ -1,7 +1,8 @@
 <script lang="ts">
-	import { Background, SvelteFlow, type Node } from '@xyflow/svelte';
+	import { Background, SvelteFlow, ViewportPortal, type Node } from '@xyflow/svelte';
 	import '@xyflow/svelte/dist/style.css';
 	import CustomNode from './custom-node.svelte';
+	import type { Snippet } from 'svelte';
 	const bgColor = 'var(--color-background)';
 	const patternColor = 'var(--color-input)';
 
@@ -19,8 +20,13 @@
 			type: 'textNode'
 		}
 	]);
+
+	let { portal }: { portal: Snippet } = $props();
 </script>
 
 <SvelteFlow nodeTypes={{ textNode: CustomNode }} bind:nodes>
 	<Background {bgColor} {patternColor} />
+	<ViewportPortal target="front">
+		{@render portal()}
+	</ViewportPortal>
 </SvelteFlow>
