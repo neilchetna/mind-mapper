@@ -1,6 +1,7 @@
 import type { Map } from '$lib/modles';
 import { MapsSDK } from '$lib/sdk/map';
 import { MapLoading, type ResourceLoading } from '$lib/utils/types/loading';
+import { toast } from 'svelte-sonner';
 
 export class MapDetailsManager {
 	#sdk: MapsSDK;
@@ -21,6 +22,13 @@ export class MapDetailsManager {
 			this.map = await this.#sdk.getMapById(id);
 		} catch (error) {
 			console.error(error);
+
+			toast.error('Something went wrong while creating maps', {
+				action: {
+					label: 'Retry',
+					onClick: () => this.loadMapDetails(id)
+				}
+			});
 		} finally {
 			this.loading[MapLoading.FetchingMapById] = false;
 		}

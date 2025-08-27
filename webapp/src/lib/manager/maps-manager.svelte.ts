@@ -1,6 +1,7 @@
 import type { Map } from '$lib/modles';
 import { MapsSDK } from '$lib/sdk/map';
 import { MapLoading, type ResourceLoading } from '$lib/utils/types/loading';
+import { toast } from 'svelte-sonner';
 
 export class MapsManager {
 	#sdk: MapsSDK;
@@ -21,6 +22,12 @@ export class MapsManager {
 			this.maps = await this.#sdk.getMaps();
 		} catch (err) {
 			console.error(err);
+			toast.error('Something went wrong while getting your maps', {
+				action: {
+					label: 'Retry',
+					onClick: () => this.loadMaps()
+				}
+			});
 		} finally {
 			this.loading[MapLoading.FetchingMaps] = false;
 		}
@@ -34,6 +41,7 @@ export class MapsManager {
 			return map;
 		} catch (error) {
 			console.error(error);
+			toast.error('Something went wrong while creating maps');
 		} finally {
 			this.loading[MapLoading.CreatingMap] = false;
 		}
