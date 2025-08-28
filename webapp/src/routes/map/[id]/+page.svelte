@@ -35,23 +35,5 @@
 
 {#if !loading && m.map}
 	<Topbar title={m.map.title} />
-	<FlowCanvas {portal} />
+	<FlowCanvas />
 {/if}
-
-{#snippet portal()}
-	<VanillaDialog
-		{body}
-		{footer}
-		open={seedDialogOpen}
-		description="Enter the first builidng block of this mind map, it could be the agenda or central topic explained briefly"
-		title="Add first node"
-	/>
-	{#snippet body()}
-		<p>Enter topic</p>
-		<Input type="text" placeholder="e.g. History of America" />
-	{/snippet}
-
-	{#snippet footer()}
-		<Button>Start map</Button>
-	{/snippet}
-{/snippet}
