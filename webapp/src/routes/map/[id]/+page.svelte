@@ -1,7 +1,6 @@
 <script lang="ts">
-	import FlowCanvas from '$lib/components/map-page/flow-canvas.svelte';
-	import Topbar from '$lib/components/map-page/topbar.svelte';
-	import { MapDetailsManager } from '$lib/manager/map-details-manager.svelte.js';
+	import { TopBar, FlowCanvas } from '$lib/components/map-page';
+	import { MapDetailsManager } from '$lib/manager';
 	import { MapLoading, NodeLoading } from '$lib/utils/types/loading.js';
 	import { useClerkContext } from 'svelte-clerk';
 
@@ -28,6 +27,6 @@
 </script>
 
 {#if !loading && m.map && m.nodes}
-	<Topbar title={m.map.title} />
+	<TopBar title={m.map.title} />
 	<FlowCanvas nodeData={m.nodes} />
 {/if}

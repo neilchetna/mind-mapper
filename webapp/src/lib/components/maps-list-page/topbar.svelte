@@ -10,6 +10,6 @@
 	const { handleNewMapClick, loading }: Props = $props();
 </script>
 
-<div class="dark:border-input/30 bg-accent flex w-full justify-end border px-4 py-2">
+<div class="flex w-full justify-end border bg-accent px-4 py-2 dark:border-input/30">
 	<Button disabled={loading} onclick={handleNewMapClick}>New Map <IconPlus /></Button>
 </div>

@@ -27,7 +27,7 @@ func (r *ChartRepository) CreateChart(ctx context.Context, chart *models.Chart) 
 
 func (r *ChartRepository) GetCharts(ctx context.Context, userId uuid.UUID) ([]models.Chart, error) {
 	var charts []models.Chart
-	res := r.db.WithContext(ctx).Where("user_id = ?", userId).Find(&charts)
+	res := r.db.WithContext(ctx).Where(&models.Chart{UserId: userId}).Find(&charts)
 
 	if res.Error != nil {
 		return nil, res.Error
@@ -38,7 +38,7 @@ func (r *ChartRepository) GetCharts(ctx context.Context, userId uuid.UUID) ([]mo
 
 func (r *ChartRepository) GetChartById(ctx context.Context, chartId uuid.UUID, userId uuid.UUID) (models.Chart, error) {
 	var chart models.Chart
-	res := r.db.WithContext(ctx).Where("user_id = ?", userId).First(&chart, "id = ?", chartId)
+	res := r.db.WithContext(ctx).Where(&models.Chart{UserId: userId}).First(&chart, chartId)
 
 	if res.Error != nil {
 		return chart, res.Error

@@ -18,10 +18,10 @@
 	{@render children()}
 
 	{#if hint && !error}
-		<p class="text-muted-foreground mt-2 text-xs">{hint}</p>
+		<p class="mt-2 text-xs text-muted-foreground">{hint}</p>
 	{/if}
 
 	{#if error}
-		<p class="text-destructive mt-2 text-xs">{error}</p>
+		<p class="mt-2 text-xs text-destructive">{error}</p>
 	{/if}
 </div>

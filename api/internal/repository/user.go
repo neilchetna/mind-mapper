@@ -17,7 +17,7 @@ func UserRepositoryBuilder(db *gorm.DB) *UserRepository {
 
 func (r *UserRepository) GetByClerkId(ctx context.Context, clerkId string) (*models.User, error) {
 	var user models.User
-	res := r.db.WithContext(ctx).First(&user, "clerk_user_id = ?", clerkId)
+	res := r.db.WithContext(ctx).Where(&models.User{ClerkUserId: clerkId}).First(&user)
 
 	if res.Error != nil {
 		return nil, res.Error

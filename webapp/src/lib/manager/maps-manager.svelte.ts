@@ -21,8 +21,7 @@ export class MapsManager {
 		try {
 			this.loading[MapLoading.FetchingMaps] = true;
 			this.maps = await this.#sdk.getMaps();
-		} catch (err) {
-			console.error(err);
+		} catch {
 			toast.error('Something went wrong while getting your maps', {
 				action: {
 					label: 'Retry',
@@ -52,8 +51,7 @@ export class MapsManager {
 			const map = await this.#sdk.createNewMap(mapData);
 			this.maps = [...this.maps, map];
 			return map;
-		} catch (error) {
-			console.error(error);
+		} catch {
 			toast.error('Something went wrong while creating maps');
 		} finally {
 			this.loading[MapLoading.CreatingMap] = false;

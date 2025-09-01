@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { DialogRootProps } from 'bits-ui';
-	import { Button, type ButtonProps } from '../ui/button';
-	import * as Dialog from '../ui/dialog';
+	import { Button, type ButtonProps } from '../../ui/button';
+	import * as Dialog from '../../ui/dialog';
 
 	type SubmitButton = {
 		title: string;
