@@ -1,14 +1,13 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
 	import { createForm } from '$lib';
-	import FormDialog from '$lib/components/common/form-dialog.svelte';
-	import MapCard from '$lib/components/maps-list-page/map-card.svelte';
-	import Topbar from '$lib/components/maps-list-page/topbar.svelte';
-	import Field from '$lib/components/ui/field/field.svelte';
+	import { FormDialog } from '$lib/components/common/form-dialog';
+	import { MapCard, Topbar } from '$lib/components/maps-list-page';
+	import { Field } from '$lib/components/ui/field';
 	import { Input } from '$lib/components/ui/input';
 	import { Skeleton } from '$lib/components/ui/skeleton';
 	import { Textarea } from '$lib/components/ui/textarea';
-	import { MapsManager } from '$lib/manager/maps-manager.svelte';
+	import { MapsManager } from '$lib/manager';
 	import type { Map } from '$lib/models';
 	import { createMapSchema } from '$lib/schema/create-map';
 	import { MapLoading } from '$lib/utils/types/loading';
@@ -29,7 +28,7 @@
 		await m.loadMaps();
 	};
 
-	const { values, errors, handleSubmit } = createForm(
+	const { values, errors, handleSubmit, reset } = createForm(
 		createMapSchema,
 		{ seedNode: '', explorationDetails: '' },
 		handleCreateNewMap
@@ -67,7 +66,10 @@
 	<FormDialog
 		onSumbit={handleSubmit}
 		submitButton={{ title: 'Create Map' }}
-		onOpenChange={(value) => (openCreateMapDialog = value)}
+		onOpenChange={(value) => {
+			openCreateMapDialog = value;
+			reset();
+		}}
 		open={openCreateMapDialog}
 		description="Enter the first builidng block of this mind map, it could be the agenda or central topic explained briefly"
 		title="Add first node"

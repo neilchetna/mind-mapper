@@ -15,7 +15,7 @@
 
 <ModeWatcher />
 <ClerkProvider publishableKey={PUBLIC_CLERK_PUBLISHABLE_KEY}>
-	<div class="bg-background text-foreground h-dvh w-full">
+	<div class="h-dvh w-full bg-background text-foreground">
 		{@render children?.()}
 		<Toaster />
 	</div>

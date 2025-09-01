@@ -1,3 +1,7 @@
 import Root from './field.svelte';
 
-export { Root };
+export {
+	Root,
+	//
+	Root as Field
+};

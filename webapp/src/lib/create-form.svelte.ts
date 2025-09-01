@@ -32,5 +32,12 @@ export function createForm<T extends z.ZodRawShape>(
 		values = { ...values, [key]: value };
 	}
 
-	return { values, errors, handleSubmit, setField };
+	function reset(): void {
+		(Object.keys(initial) as Array<keyof typeof initial>).forEach((key) => {
+			errors[key] = '';
+			values[key] = initial[key];
+		});
+	}
+
+	return { values, errors, handleSubmit, setField, reset };
 }

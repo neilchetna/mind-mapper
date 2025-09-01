@@ -1,0 +1,177 @@
+{
+  "v": 10,
+  "name": "Babylon",
+  "folders": [
+    {
+      "v": 10,
+      "name": "charts",
+      "folders": [
+        {
+          "v": 10,
+          "name": "nodes",
+          "folders": [],
+          "requests": [
+            {
+              "v": "15",
+              "name": "GET /charts/{chartId}/nodes",
+              "method": "GET",
+              "endpoint": "http://<<HOST>>/charts/0199056d-5171-7d6c-bb51-6e3b04005fe6/nodes",
+              "params": [],
+              "headers": [],
+              "preRequestScript": "export {};\n",
+              "testScript": "",
+              "auth": {
+                "authType": "bearer",
+                "token": "<<TOKEN>>",
+                "authActive": true
+              },
+              "body": {
+                "contentType": null,
+                "body": null
+              },
+              "requestVariables": [],
+              "responses": {}
+            }
+          ],
+          "auth": {
+            "authType": "inherit",
+            "authActive": true
+          },
+          "headers": [],
+          "variables": [],
+          "_ref_id": "coll_mf0wt9v2_78f4211c-9461-4c7e-af72-6b69e9eaace0"
+        }
+      ],
+      "requests": [
+        {
+          "v": "15",
+          "name": "POST /charts",
+          "method": "POST",
+          "endpoint": "http://<<HOST>>/charts",
+          "params": [],
+          "headers": [],
+          "preRequestScript": "export {};\n",
+          "testScript": "",
+          "auth": {
+            "authType": "bearer",
+            "token": "<<TOKEN>>",
+            "authActive": true
+          },
+          "body": {
+            "contentType": "application/json",
+            "body": "{\n  \"nodes\": [{\"text\": \"History of America\", \"isSeedNode\": true}]\n}"
+          },
+          "requestVariables": [],
+          "responses": {}
+        },
+        {
+          "v": "15",
+          "name": "GET /charts ",
+          "method": "GET",
+          "endpoint": "http://<<HOST>>/charts",
+          "params": [],
+          "headers": [],
+          "preRequestScript": "export {};\n",
+          "testScript": "",
+          "auth": {
+            "authType": "bearer",
+            "token": "<<TOKEN>>",
+            "authActive": true
+          },
+          "body": {
+            "contentType": null,
+            "body": null
+          },
+          "requestVariables": [],
+          "responses": {}
+        }
+      ],
+      "auth": {
+        "authType": "inherit",
+        "authActive": true
+      },
+      "headers": [],
+      "variables": [],
+      "_ref_id": "coll_meq277ay_cb3a3bb7-d343-48ec-ab97-8f7637d2ab5d"
+    }
+  ],
+  "requests": [
+    {
+      "v": "15",
+      "name": "root",
+      "method": "GET",
+      "endpoint": "http://<<HOST>>",
+      "params": [],
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "",
+          "active": true,
+          "description": ""
+        }
+      ],
+      "preRequestScript": "export {};\n",
+      "testScript": "",
+      "auth": {
+        "authType": "bearer",
+        "token": "<<TOKEN>>",
+        "authActive": true
+      },
+      "body": {
+        "contentType": null,
+        "body": null
+      },
+      "requestVariables": [],
+      "responses": {}
+    },
+    {
+      "v": "15",
+      "name": "Set SESSION_ID",
+      "method": "POST",
+      "endpoint": "https://api.clerk.com/v1/sessions/",
+      "params": [],
+      "headers": [],
+      "preRequestScript": "",
+      "testScript": "export {};\npw.env.set(\"SESSION_ID\", pw.response.body.id)",
+      "auth": {
+        "authType": "bearer",
+        "token": "<<SECRET_KEY>>",
+        "authActive": true
+      },
+      "body": {
+        "contentType": "application/json",
+        "body": "{\n  \"user_id\": \"<<USER_ID>>\"\n}"
+      },
+      "requestVariables": [],
+      "responses": {}
+    },
+    {
+      "v": "15",
+      "name": "Set TOKEN",
+      "method": "POST",
+      "endpoint": "https://api.clerk.com/v1/sessions/<<SESSION_ID>>/tokens",
+      "params": [],
+      "headers": [],
+      "preRequestScript": "",
+      "testScript": "export {};\npw.env.set(\"TOKEN\", pw.response.body.jwt);",
+      "auth": {
+        "authType": "bearer",
+        "token": "<<SECRET_KEY>>",
+        "authActive": true
+      },
+      "body": {
+        "contentType": "application/json",
+        "body": "{\n  \"expires_in_seconds\": 315360000\n}"
+      },
+      "requestVariables": [],
+      "responses": {}
+    }
+  ],
+  "auth": {
+    "authType": "none",
+    "authActive": true
+  },
+  "headers": [],
+  "variables": [],
+  "_ref_id": "coll_meq1skuc_ba6c4d31-9517-4567-b9cd-68eb89bd2c38"
+}
