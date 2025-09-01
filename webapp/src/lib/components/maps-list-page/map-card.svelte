@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { Map } from '$lib/modles';
+	import type { Map } from '$lib/models';
 	const { map, redirectPath }: { map: Map; redirectPath: string } = $props();
 </script>
 

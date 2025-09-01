@@ -34,8 +34,9 @@ func main() {
 
 	var chart models.Chart
 	var user models.User
+	var node models.Node
 
-	err = migrator.AutoMigrate(&chart, &user)
+	err = migrator.AutoMigrate(&chart, &user, &node)
 	if err != nil {
 		log.Fatalf("error migrating data: %v", err)
 	}

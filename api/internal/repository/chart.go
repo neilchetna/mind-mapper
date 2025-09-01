@@ -16,7 +16,6 @@ func ChartRepositoryBuilder(db *gorm.DB) *ChartRepository {
 	return &ChartRepository{db}
 }
 
-
 func (r *ChartRepository) CreateChart(ctx context.Context, chart *models.Chart) error {
 	res := r.db.WithContext(ctx).Create(chart)
 
