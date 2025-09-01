@@ -1,32 +1,20 @@
 <script lang="ts">
-	import { Background, SvelteFlow, ViewportPortal, type Node } from '@xyflow/svelte';
+	import { Background, SvelteFlow, type Node as FlowNode } from '@xyflow/svelte';
 	import '@xyflow/svelte/dist/style.css';
-	import CustomNode from './custom-node.svelte';
-	import type { Snippet } from 'svelte';
-	const bgColor = 'var(--color-background)';
+	import SeedNode from './seed-node.svelte';
+	import type { Node } from '$lib/models';
+	import { node2FlowNode } from '$lib/utils/nodeTransformer';
+	const bgColor = 'var(--color-secondary)';
 	const patternColor = 'var(--color-input)';
+	interface Props {
+		nodeData: Node[];
+	}
 
-	let nodes = $state.raw<Node[]>([
-		{
-			id: '1',
-			position: { x: 0, y: 0 },
-			data: { label: 'Hello' },
-			type: 'textNode'
-		},
-		{
-			id: '2',
-			position: { x: 100, y: 100 },
-			data: { label: 'World' },
-			type: 'textNode'
-		}
-	]);
+	const { nodeData }: Props = $props();
 
-	let { portal }: { portal: Snippet } = $props();
+	let nodes = $state.raw<FlowNode[]>(nodeData.map(node2FlowNode));
 </script>
 
-<SvelteFlow nodeTypes={{ textNode: CustomNode }} bind:nodes>
+<SvelteFlow nodeTypes={{ seedNode: SeedNode }} bind:nodes fitView>
 	<Background {bgColor} {patternColor} />
-	<ViewportPortal target="front">
-		{@render portal()}
-	</ViewportPortal>
 </SvelteFlow>

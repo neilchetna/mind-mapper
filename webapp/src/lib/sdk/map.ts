@@ -1,5 +1,5 @@
 import { ApiClient } from '$lib/api';
-import type { Map } from '$lib/modles';
+import type { CreateMap, Map } from '$lib/models';
 
 export class MapsSDK extends ApiClient {
 	public async getMaps() {
@@ -10,7 +10,7 @@ export class MapsSDK extends ApiClient {
 		return this.get<Map>(`/charts/${id}`).then((res) => res.data);
 	}
 
-	public async createNewMap(map: Partial<Map>) {
-		return this.post<Partial<Map>, Map>('/charts', map).then((res) => res.data);
+	public async createNewMap(map: CreateMap) {
+		return this.post<CreateMap, Map>('/charts', map).then((res) => res.data);
 	}
 }
