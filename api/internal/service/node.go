@@ -11,6 +11,7 @@ import (
 
 type NodeRepository interface {
 	GetNode(ctx context.Context, chartId uuid.UUID, userId uuid.UUID) ([]models.Node, error)
+	CreatNode(ctx context.Context, node *models.Node) error
 }
 
 type NodeService struct {
@@ -19,6 +20,10 @@ type NodeService struct {
 
 func (svc *NodeService) GetNodes(ctx context.Context, chartID uuid.UUID, userID uuid.UUID) ([]models.Node, error) {
 	return svc.r.GetNode(ctx, chartID, userID)
+}
+
+func (svc *NodeService) CreateNode(ctx context.Context, node *models.Node) error {
+	return svc.r.CreatNode(ctx, node)
 }
 
 func NodeServiceBuilder(db *gorm.DB) *NodeService {

@@ -4,7 +4,7 @@ export const createMapSchema = z.object({
 	seedNode: z
 		.string()
 		.min(4, { error: 'The fist node should be at least 4 characters long' })
-		.max(22, { error: 'The node cannot be longer than 22 characters' }),
+		.max(35, { error: 'The node cannot be longer than 35 characters' }),
 	explorationDetails: z.string().max(1000)
 });
 

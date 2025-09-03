@@ -7,6 +7,7 @@ export const node2FlowNode = (node: Node): FlowNode => {
 		id: node.id,
 		position: { x: 0, y: 0 },
 		type: node.isSeedNode ? 'seedNode' : 'exploredNode',
-		draggable: false
+		draggable: false,
+		selectable: true
 	};
 };

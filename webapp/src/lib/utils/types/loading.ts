@@ -5,7 +5,8 @@ export enum MapLoading {
 }
 
 export enum NodeLoading {
-	FetchingNodes = 'fetching-nodes'
+	FetchingNodes = 'fetching-nodes',
+	CreatingNode = 'creating-node'
 }
 
 type Resource = `${MapLoading}` | `${NodeLoading}`;

@@ -39,6 +39,7 @@
 		WithElementRef<HTMLAnchorAttributes> & {
 			variant?: ButtonVariant;
 			size?: ButtonSize;
+			tooltip?: string;
 		};
 </script>
 
