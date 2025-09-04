@@ -1,45 +1,79 @@
-import type { CreateNode, Map, Node } from '$lib/models';
+import type { CreateNode } from '$lib/dto';
+import type { Edge, Map, Node } from '$lib/models';
 import type { CreateNodeSchema } from '$lib/schema';
+import { EdgeSDK } from '$lib/sdk/edge';
 import { MapsSDK } from '$lib/sdk/map';
 import { NodeSDK } from '$lib/sdk/node';
-import { MapLoading, NodeLoading, type ResourceLoading } from '$lib/utils/types/loading';
+import {
+	EdgeLoading,
+	MapLoading,
+	NodeLoading,
+	type ResourceLoading
+} from '$lib/utils/types/loading';
 import { toast } from 'svelte-sonner';
 
 export class MapDetailsManager {
 	#mapsSDK: MapsSDK;
 	#nodeSDK: NodeSDK;
+	#edgeSDK: EdgeSDK;
 	#mapId;
 	map = $state<Map>();
-	nodes = $state<Node[]>();
+	nodes = $state<Node[]>([]);
+	edges = $state<Edge[]>([]);
 	loading = $state<ResourceLoading>({});
+	selectedNode = $state<string>('');
 
 	loadSDK(token: string) {
 		this.#mapsSDK.newAuthToken(token);
 		this.#nodeSDK.newAuthToken(token);
+		this.#edgeSDK.newAuthToken(token);
 	}
 
 	constructor(mapId: string) {
 		this.#mapId = mapId;
 		this.#mapsSDK = new MapsSDK();
 		this.#nodeSDK = new NodeSDK();
+		this.#edgeSDK = new EdgeSDK();
 	}
 
-	#formDataToCreateNode(nodeData: CreateNodeSchema): CreateNode {
+	setSelectedNode(nodeId: string): void {
+		this.selectedNode = nodeId;
+	}
+
+	#formDataToCreateNode(nodeData: CreateNodeSchema, parentId: string): CreateNode {
 		return {
+			parentId,
 			text: nodeData.nodeText,
 			isSeedNode: false
 		};
 	}
 
+	async loadingEdges() {
+		try {
+			this.loading[EdgeLoading.FetchingEdges] = true;
+			this.edges = await this.#edgeSDK.getEdges(this.#mapId);
+		} catch {
+			toast.error('Something went wrong while loading this map', {
+				action: {
+					label: 'Retry',
+					onClick: () => this.loadingEdges()
+				}
+			});
+		} finally {
+			this.loading[EdgeLoading.FetchingEdges] = false;
+		}
+	}
+
 	async createNewNode(nodeData: CreateNodeSchema) {
 		try {
 			this.loading[NodeLoading.CreatingNode] = true;
-			const node = await this.#nodeSDK.createNode(
+			const res = await this.#nodeSDK.createNode(
 				this.#mapId,
-				this.#formDataToCreateNode(nodeData)
+				this.#formDataToCreateNode(nodeData, this.selectedNode)
 			);
 
-			this.nodes?.push(node);
+			this.nodes = [...this.nodes, res.node];
+			this.edges = [...this.edges, res.edge];
 		} catch {
 			toast.error('Something went wrong while creating node');
 		} finally {

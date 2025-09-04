@@ -1,5 +1,6 @@
 import { ApiClient } from '$lib/api';
-import { type CreateNode, type Node } from '$lib/models';
+import type { CreateNode, CreateNodeResponse } from '$lib/dto';
+import { type Node } from '$lib/models';
 
 export class NodeSDK extends ApiClient {
 	public async getAllNodes(mapId: string) {
@@ -9,6 +10,6 @@ export class NodeSDK extends ApiClient {
 
 	public async createNode(mapId: string, node: CreateNode) {
 		const url = `/charts/${mapId}/nodes`;
-		return this.post<CreateNode, Node>(url, node).then((res) => res.data);
+		return this.post<CreateNode, CreateNodeResponse>(url, node).then((res) => res.data);
 	}
 }

@@ -1,5 +1,5 @@
 import type { BaseModel } from './base';
-import type { CreateNode, Node } from './node';
+import type { Node } from './node';
 
 export interface Map extends BaseModel {
 	id: string;
@@ -10,5 +10,3 @@ export interface Map extends BaseModel {
 	nodes: Array<Node>;
 	explorationDetails: string;
 }
-
-export type CreateMap = Partial<Pick<Map, 'explorationDetails'>> & { nodes: [CreateNode] };

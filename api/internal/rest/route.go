@@ -22,6 +22,12 @@ func BuildRoutes(e *echo.Echo, db *gorm.DB) {
 	nodeGroup := e.Group("/charts/:chartId/nodes")
 	nodeSvc := service.NodeServiceBuilder(db)
 	handlers.NewNodeHandlerBuilder(nodeGroup, nodeSvc)
+
+	// Edges group
+	edgeGroup := e.Group("/charts/:chartId/edges")
+	edgeSVC := service.NewEdgeServiceBuilder(db)
+	handlers.NewEdgeHandlerBuilder(edgeGroup, edgeSVC)
+
 }
 
 func bindMiddleware(e *echo.Echo, db *gorm.DB) {

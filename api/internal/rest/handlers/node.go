@@ -7,12 +7,13 @@ import (
 	"github.com/google/uuid"
 	"github.com/labstack/echo/v4"
 	"github.com/neilchetna/mind-mapper/internal/models"
+	"github.com/neilchetna/mind-mapper/internal/rest/dto"
 	"github.com/neilchetna/mind-mapper/pkg/utils"
 )
 
 type NodeService interface {
 	GetNodes(ctx context.Context, chartID uuid.UUID, userID uuid.UUID) ([]models.Node, error)
-	CreateNode(ctx context.Context, node *models.Node) error
+	CreateNode(ctx context.Context, node *models.Node) (models.Edge, error)
 }
 
 type NodeHandler struct {
@@ -61,10 +62,13 @@ func (h *NodeHandler) Create(c echo.Context) error {
 	node.ChartId = chartId
 	node.UserId = user.ID
 
-	err = h.svc.CreateNode(ctx, &node)
+	edge, err := h.svc.CreateNode(ctx, &node)
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, err.Error())
 	}
 
-	return c.JSON(http.StatusOK, node)
+	return c.JSON(http.StatusOK, dto.CreateNodeResponse{
+		Node: node,
+		Edge: edge,
+	})
 }

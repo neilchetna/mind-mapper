@@ -1,3 +1,2 @@
 export * from './map';
 export * from './node';
-export * from './edge';

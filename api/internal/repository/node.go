@@ -26,7 +26,7 @@ func (r *NodeRepository) CreatNode(ctx context.Context, node *models.Node) error
 	return nil
 }
 
-func (r *NodeRepository) GetNode(ctx context.Context, chartID uuid.UUID, userID uuid.UUID) ([]models.Node, error) {
+func (r *NodeRepository) GetNodes(ctx context.Context, chartID uuid.UUID, userID uuid.UUID) ([]models.Node, error) {
 	var nodes []models.Node
 	res := r.db.WithContext(ctx).Where(&models.Node{ChartId: chartID, UserId: userID}).Find(&nodes)
 

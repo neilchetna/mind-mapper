@@ -6,7 +6,8 @@
 	import Input from '$lib/components/ui/input/input.svelte';
 	import { MapDetailsManager } from '$lib/manager';
 	import { createNodeSchema, type CreateNodeSchema } from '$lib/schema/create-node.js';
-	import { MapLoading, NodeLoading } from '$lib/utils/types/loading.js';
+	import { EdgeLoading, MapLoading, NodeLoading } from '$lib/utils/types/loading.js';
+	import { SvelteFlowProvider } from '@xyflow/svelte';
 	import { useClerkContext } from 'svelte-clerk';
 
 	type CreateNodeFormProps = {
@@ -18,11 +19,14 @@
 	const m = new MapDetailsManager(params.id);
 	const ctx = useClerkContext();
 	const loading = $derived(
-		!!m.loading[MapLoading.FetchingMapById] || !!m.loading[NodeLoading.FetchingNodes]
+		!!m.loading[MapLoading.FetchingMapById] ||
+			!!m.loading[NodeLoading.FetchingNodes] ||
+			!!m.loading[EdgeLoading.FetchingEdges]
 	);
 
 	const handleCreateNode = async (formData: CreateNodeSchema) => {
-		return m.createNewNode(formData);
+		await m.createNewNode(formData);
+		reset();
 	};
 
 	const { values, errors, handleSubmit, reset } = createForm(
@@ -39,6 +43,7 @@
 
 		m.loadMapDetails();
 		m.loadingNodes();
+		m.loadingEdges();
 	};
 
 	$effect(() => {
@@ -48,7 +53,14 @@
 
 {#if !loading && m.map && m.nodes}
 	<TopBar title={m.map.title} />
-	<FlowCanvas {createNodeForm} nodeData={m.nodes} />
+	<SvelteFlowProvider>
+		<FlowCanvas
+			bind:selectedNode={m.selectedNode}
+			{createNodeForm}
+			nodeData={m.nodes}
+			edgeData={m.edges}
+		/>
+	</SvelteFlowProvider>
 {/if}
 
 {#snippet createNodeForm({ open, onClose }: CreateNodeFormProps)}

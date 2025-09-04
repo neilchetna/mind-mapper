@@ -1,4 +1,5 @@
-import type { CreateMap, CreateNode, Map } from '$lib/models';
+import type { CreateMap, CreateNode } from '$lib/dto';
+import type { Map } from '$lib/models';
 import type { CreateMapSchema } from '$lib/schema/create-map';
 import { MapsSDK } from '$lib/sdk/map';
 import { MapLoading, type ResourceLoading } from '$lib/utils/types/loading';
