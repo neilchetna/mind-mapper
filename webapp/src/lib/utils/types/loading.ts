@@ -5,9 +5,14 @@ export enum MapLoading {
 }
 
 export enum NodeLoading {
-	FetchingNodes = 'fetching-nodes'
+	FetchingNodes = 'fetching-nodes',
+	CreatingNode = 'creating-node'
 }
 
-type Resource = `${MapLoading}` | `${NodeLoading}`;
+export enum EdgeLoading {
+	FetchingEdges = 'fetching-edges'
+}
+
+type Resource = `${MapLoading}` | `${NodeLoading}` | `${EdgeLoading}`;
 
 export type ResourceLoading = Partial<Record<Resource, boolean>>;

@@ -1,5 +1,6 @@
 import { ApiClient } from '$lib/api';
-import type { CreateMap, Map } from '$lib/models';
+import type { CreateMap } from '$lib/dto';
+import type { Map } from '$lib/models';
 
 export class MapsSDK extends ApiClient {
 	public async getMaps() {

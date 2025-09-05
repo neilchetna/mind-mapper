@@ -5,6 +5,5 @@ export interface Node extends BaseModel {
 	text: string;
 	description: string;
 	userId: string;
+	parentId: string;
 }
-
-export type CreateNode = Pick<Node, 'text' | 'isSeedNode'>;

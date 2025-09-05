@@ -1,5 +1,4 @@
-import FlowCanvas from './flow-canvas.svelte';
-import SeedNode from './seed-node.svelte';
+import { FlowCanvas } from './flow-canvas';
 import TopBar from './topbar.svelte';
 
-export { FlowCanvas, SeedNode, TopBar };
+export { FlowCanvas, TopBar };
