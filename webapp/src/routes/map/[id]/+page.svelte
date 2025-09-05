@@ -5,15 +5,11 @@
 	import Field from '$lib/components/ui/field/field.svelte';
 	import Input from '$lib/components/ui/input/input.svelte';
 	import { MapDetailsManager } from '$lib/manager';
+	import { flowState } from '$lib/manager/flow-manager.svelte.js';
 	import { createNodeSchema, type CreateNodeSchema } from '$lib/schema/create-node.js';
 	import { EdgeLoading, MapLoading, NodeLoading } from '$lib/utils/types/loading.js';
 	import { SvelteFlowProvider } from '@xyflow/svelte';
 	import { useClerkContext } from 'svelte-clerk';
-
-	type CreateNodeFormProps = {
-		open: boolean;
-		onClose(value: boolean): void;
-	};
 
 	const { params } = $props();
 	const m = new MapDetailsManager(params.id);
@@ -26,6 +22,7 @@
 
 	const handleCreateNode = async (formData: CreateNodeSchema) => {
 		await m.createNewNode(formData);
+		flowState.openCreateNewNode = false;
 		reset();
 	};
 
@@ -63,17 +60,17 @@
 	</SvelteFlowProvider>
 {/if}
 
-{#snippet createNodeForm({ open, onClose }: CreateNodeFormProps)}
+{#snippet createNodeForm()}
 	<FormDialog
 		onOpenChange={(value: boolean) => {
-			onClose(value);
+			flowState.openCreateNewNode = value;
 			reset();
 		}}
 		title="Create new node"
 		description="Enter the text that is relevent to the previous node"
 		onSumbit={handleSubmit}
 		submitButton={{ title: 'Create Node' }}
-		{open}
+		open={flowState.openCreateNewNode}
 	>
 		<Field label="Enter new node's text" error={errors.nodeText}>
 			<Input type="text" aria-invalid={!!errors.nodeText} bind:value={values.nodeText} />
