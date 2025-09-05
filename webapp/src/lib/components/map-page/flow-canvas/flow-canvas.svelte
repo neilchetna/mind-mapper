@@ -5,19 +5,18 @@
 		Background,
 		SvelteFlow,
 		useOnSelectionChange,
-		type Node as FlowNode,
-		type Edge as FlowEdge
+		type Edge as FlowEdge,
+		type Node as FlowNode
 	} from '@xyflow/svelte';
 	import '@xyflow/svelte/dist/style.css';
-	import SeedNode from './seed-node.svelte';
-	import { onDestroy, type Snippet } from 'svelte';
-	import { flowState } from './flow-manager.svelte';
+	import { type Snippet } from 'svelte';
 	import ExploredNode from './explored-node.svelte';
+	import SeedNode from './seed-node.svelte';
 
 	interface Props {
 		nodeData: Node[];
 		edgeData: Edge[];
-		createNodeForm: Snippet<[{ open: boolean; onClose(value: boolean): void }]>;
+		createNodeForm: Snippet;
 		selectedNode: string;
 	}
 	let { nodeData, edgeData, createNodeForm, selectedNode = $bindable('') }: Props = $props();
@@ -31,10 +30,6 @@
 	useOnSelectionChange(({ nodes: selectedNodes }) => {
 		selectedNode = selectedNodes[0]?.id || '';
 	});
-
-	onDestroy(() => {
-		flowState.destroy();
-	});
 </script>
 
 <SvelteFlow
@@ -43,9 +38,6 @@
 	bind:edges
 	fitView
 >
-	{@render createNodeForm({
-		open: flowState.openCreateNewNode,
-		onClose: (value) => (flowState.openCreateNewNode = value)
-	})}
+	{@render createNodeForm()}
 	<Background {bgColor} {patternColor} />
 </SvelteFlow>

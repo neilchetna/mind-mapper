@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { Snippet } from 'svelte';
 	import Actions from './actions.svelte';
-	import { flowState } from './flow-manager.svelte';
+	import { flowState } from '$lib/manager/flow-manager.svelte';
 
 	type Props = { children: Snippet; selected: boolean };
 	const { selected, children }: Props = $props();
