@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { Edge, Node } from '$lib/models';
-	import { node2FlowNode } from '$lib/utils/nodeTransformer';
+	import { computeLayout } from '$lib/utils';
 	import {
 		Background,
 		SvelteFlow,
@@ -10,6 +10,7 @@
 	} from '@xyflow/svelte';
 	import '@xyflow/svelte/dist/style.css';
 	import { type Snippet } from 'svelte';
+	import EdgeComponent from './edge.svelte';
 	import ExploredNode from './explored-node.svelte';
 	import SeedNode from './seed-node.svelte';
 
@@ -21,8 +22,9 @@
 	}
 	let { nodeData, edgeData, createNodeForm, selectedNode = $bindable('') }: Props = $props();
 
-	let nodes = $derived<FlowNode[]>(nodeData.map(node2FlowNode));
-	let edges = $derived<FlowEdge[]>(edgeData);
+	let { nodes, edges } = $derived<{ nodes: FlowNode[]; edges: FlowEdge[] }>(
+		computeLayout(nodeData, edgeData)
+	);
 
 	const patternColor = 'var(--color-input)';
 	const bgColor = 'var(--color-secondary)';
@@ -34,6 +36,7 @@
 
 <SvelteFlow
 	nodeTypes={{ seedNode: SeedNode, exploredNode: ExploredNode }}
+	edgeTypes={{ custom: EdgeComponent }}
 	bind:nodes
 	bind:edges
 	fitView

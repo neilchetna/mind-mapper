@@ -10,7 +10,7 @@
 	};
 </script>
 
-<div class={[selected && 'outline-primary outline outline-offset-4']}>
+<div class={[selected && 'outline outline-offset-4 outline-primary']}>
 	{#if selected}
 		<div class="absolute inset-x-0 -top-12">
 			<Actions onNewNodeClick={handleNewNodeClicked} />
