@@ -11,3 +11,13 @@ export type WithoutChild<T> = T extends { child?: any } ? Omit<T, 'child'> : T;
 export type WithoutChildren<T> = T extends { children?: any } ? Omit<T, 'children'> : T;
 export type WithoutChildrenOrChild<T> = WithoutChildren<WithoutChild<T>>;
 export type WithElementRef<T, U extends HTMLElement = HTMLElement> = T & { ref?: U | null };
+
+export const LAYOUT = {
+	GRAPH_X_SPACING: 100,
+	GRAPH_FIRST_RANK_SPACING: 1000,
+	GRAPH_Y_NORMALIZATION: 15
+} as const;
+
+export * from './types';
+export * from './split-nodes-arr';
+export * from './graph-layout';

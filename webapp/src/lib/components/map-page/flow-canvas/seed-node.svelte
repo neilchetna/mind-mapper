@@ -7,8 +7,8 @@
 
 <NodeRoot {selected}>
 	<div class="max-w-56 rounded-sm border bg-card px-4 py-2 text-center shadow-md">
-		<Handle class="opacity-0" isConnectable={false} type="source" position={Position.Right} />
 		<p>{data.text}</p>
+		<Handle class="opacity-0" isConnectable={false} type="source" position={Position.Right} />
 		<Handle class="opacity-0" isConnectable={false} type="source" position={Position.Left} />
 	</div>
 </NodeRoot>
