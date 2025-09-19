@@ -19,10 +19,12 @@
 
 	function getSourceX() {
 		if (data?.isSeedEdge) {
-			if (data.side === 'right') return sourceX - 5; // Some padding on the right of nodes
+			// Some padding on the right of nodes
+			if (data.side === 'right') return sourceX - 5;
 
 			const seedNode = useInternalNode(source);
-			const diff = seedNode.current?.measured.width || 100; // Fall back value seed node width
+			// Fall back value seed node width
+			const diff = seedNode.current?.measured.width || 100;
 			return sourceX - diff;
 		}
 		return sourceX;
@@ -38,6 +40,8 @@
 			targetY
 		})
 	);
+
+	const style = data?.isDashed ? 'stroke-dasharray: 5;' : '';
 </script>
 
-<BaseEdge {id} {path} />
+<BaseEdge class={[data?.isDashed && 'opacity-40']} {style} {id} {path} />

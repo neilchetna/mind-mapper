@@ -16,7 +16,7 @@ func NodeRepositoryBuilder(db *gorm.DB) *NodeRepository {
 	return &NodeRepository{db}
 }
 
-func (r *NodeRepository) CreatNode(ctx context.Context, node *models.Node) error {
+func (r *NodeRepository) CreateNode(ctx context.Context, node *models.Node) error {
 	res := r.db.WithContext(ctx).Create(node)
 
 	if res.Error != nil {
@@ -26,7 +26,7 @@ func (r *NodeRepository) CreatNode(ctx context.Context, node *models.Node) error
 	return nil
 }
 
-func (r *NodeRepository) GetNodes(ctx context.Context, chartID uuid.UUID, userID uuid.UUID) ([]models.Node, error) {
+func (r *NodeRepository) GetUserNodes(ctx context.Context, chartID uuid.UUID, userID uuid.UUID) ([]models.Node, error) {
 	var nodes []models.Node
 	res := r.db.WithContext(ctx).Where(&models.Node{ChartId: chartID, UserId: userID}).Find(&nodes)
 
@@ -35,4 +35,25 @@ func (r *NodeRepository) GetNodes(ctx context.Context, chartID uuid.UUID, userID
 	}
 
 	return nodes, nil
+}
+
+func (r *NodeRepository) GetNodes(ctx context.Context, chartID uuid.UUID) ([]models.Node, error) {
+	var nodes []models.Node
+	res := r.db.WithContext(ctx).Where(&models.Node{ChartId: chartID}).Find(&nodes)
+
+	if res.Error != nil {
+		return nil, res.Error
+	}
+
+	return nodes, nil
+}
+
+func (r *NodeRepository) CreateBulkNodes(ctx context.Context, nodes *[]models.Node) error {
+	res := r.db.WithContext(ctx).Create(nodes)
+
+	if res.Error != nil {
+		return res.Error
+	}
+
+	return nil
 }

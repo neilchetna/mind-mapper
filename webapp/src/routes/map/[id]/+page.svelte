@@ -9,6 +9,7 @@
 	import { createNodeSchema, type CreateNodeSchema } from '$lib/schema/create-node.js';
 	import { EdgeLoading, MapLoading, NodeLoading } from '$lib/utils/types/loading.js';
 	import { SvelteFlowProvider } from '@xyflow/svelte';
+	import { onMount } from 'svelte';
 	import { useClerkContext } from 'svelte-clerk';
 
 	const { params } = $props();
@@ -43,7 +44,7 @@
 		m.loadingEdges();
 	};
 
-	$effect(() => {
+	onMount(() => {
 		init();
 	});
 </script>

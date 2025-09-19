@@ -2,6 +2,7 @@ package repository
 
 import (
 	"context"
+	"log"
 
 	"github.com/google/uuid"
 	"github.com/neilchetna/mind-mapper/internal/models"
@@ -35,4 +36,15 @@ func (r *EdgeRepository) GetEdges(ctx context.Context, chartId uuid.UUID) ([]mod
 	}
 
 	return edges, nil
+}
+
+func (r *EdgeRepository) GetEdgeByData(ctx context.Context, edge *models.Edge) error {
+	log.Print(edge)
+	res := r.db.WithContext(ctx).Where(edge).First(&models.Edge{})
+
+	if res.Error != nil {
+		return res.Error
+	}
+
+	return nil
 }

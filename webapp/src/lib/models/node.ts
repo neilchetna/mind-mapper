@@ -6,4 +6,5 @@ export interface Node extends BaseModel {
 	description: string;
 	userId: string;
 	parentId: string;
+	isSuggested: boolean;
 }

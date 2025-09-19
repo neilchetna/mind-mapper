@@ -7,7 +7,7 @@ import (
 	"github.com/google/uuid"
 	"github.com/labstack/echo/v4"
 	"github.com/neilchetna/mind-mapper/internal/models"
-	"github.com/neilchetna/mind-mapper/internal/rest/dto"
+	restDTO "github.com/neilchetna/mind-mapper/internal/rest/dto"
 	"github.com/neilchetna/mind-mapper/pkg/utils"
 )
 
@@ -67,7 +67,7 @@ func (h *NodeHandler) Create(c echo.Context) error {
 		return c.JSON(http.StatusInternalServerError, err.Error())
 	}
 
-	return c.JSON(http.StatusOK, dto.CreateNodeResponse{
+	return c.JSON(http.StatusOK, restDTO.CreateNodeResponse{
 		Node: node,
 		Edge: edge,
 	})

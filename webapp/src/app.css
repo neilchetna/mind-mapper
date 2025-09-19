@@ -14,7 +14,7 @@
 	--popover-foreground: oklch(0.5154 0.0212 232.87);
 	--primary: oklch(0.6535 0.1208 163.88);
 	--primary-foreground: oklch(0.9879 0.0163 91.55);
-	--secondary: oklch(0.9613 0.0368 110.4);
+	--secondary: oklch(0.9879 0.0163 91.55);
 	--secondary-foreground: oklch(0.5154 0.0212 232.87);
 	--muted: oklch(0.9879 0.0163 91.55);
 	--muted-foreground: oklch(0.554 0.046 257.417 / 80%);
@@ -118,4 +118,8 @@
 	body {
 		@apply bg-background text-foreground;
 	}
+}
+
+.svelte-flow {
+	--xy-edge-stroke-default: var(--color-accent);
 }

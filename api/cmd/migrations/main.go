@@ -1,33 +1,21 @@
 package main
 
 import (
-	"fmt"
 	"log"
-	"os"
 
 	"github.com/joho/godotenv"
 	"github.com/neilchetna/mind-mapper/internal/models"
-	"gorm.io/driver/postgres"
-	"gorm.io/gorm"
+	"github.com/neilchetna/mind-mapper/pkg"
 )
 
 func main() {
 	if err := godotenv.Load(); err != nil {
-		log.Fatalf("Error loading .env file")
+		log.Fatal(pkg.ErrLoadingENV.Error())
 	}
 
-	dbHost := os.Getenv("PG_HOST")
-	dbPort := os.Getenv("PG_PORT")
-	dbUser := os.Getenv("PG_USER")
-	dbPass := os.Getenv("PG_PASSWORD")
-	dbName := os.Getenv("PG_DB_NAME")
-
-	connectionString := fmt.Sprintf("postgres://%s:%s@%s:%s/%s?sslmode=disable", dbUser, dbPass, dbHost, dbPort, dbName)
-
-	var config gorm.Config
-	db, err := gorm.Open(postgres.Open(connectionString), &config)
+	db, err := pkg.ConnectToDatabase()
 	if err != nil {
-		log.Fatalf("error opening database: %v", err)
+		log.Fatal(pkg.ErrConnectionDB.Error())
 	}
 
 	migrator := db.Migrator()
@@ -39,8 +27,8 @@ func main() {
 
 	err = migrator.AutoMigrate(&chart, &user, &node, &edge)
 	if err != nil {
-		log.Fatalf("error migrating data: %v", err)
+		log.Fatalf("%w: %v", pkg.ErrMigratingDB.Error(), err)
 	}
 
-	log.Print("migrations done successfully")
+	log.Print("auto migrations ran successfully")
 }

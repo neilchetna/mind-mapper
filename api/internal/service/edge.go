@@ -12,6 +12,7 @@ import (
 type EdgeRepository interface {
 	CreateEdge(ctx context.Context, edge *models.Edge) error
 	GetEdges(ctx context.Context, chartId uuid.UUID) ([]models.Edge, error)
+	GetEdgeByData(ctx context.Context, edge *models.Edge) error
 }
 
 type EdgeService struct {
@@ -20,6 +21,10 @@ type EdgeService struct {
 
 func (svc *EdgeService) GetEdges(ctx context.Context, chartId uuid.UUID) ([]models.Edge, error) {
 	return svc.r.GetEdges(ctx, chartId)
+}
+
+func (svc *EdgeService) GetEdgeByData(ctx context.Context, edge *models.Edge) error {
+	return svc.r.GetEdgeByData(ctx, edge)
 }
 
 func NewEdgeServiceBuilder(db *gorm.DB) *EdgeService {

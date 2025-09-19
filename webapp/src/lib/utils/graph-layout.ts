@@ -33,7 +33,8 @@ export function computeLayout(
 		edges: right.edges
 	});
 
-	const flowEdges = buildEdges(edges, seed.id, left.edges);
+	const suggestedNodes = new Set(nodes.filter((node) => node.isSuggested).map((node) => node.id));
+	const flowEdges = buildEdges(edges, seed.id, left.edges, suggestedNodes);
 
 	return {
 		nodes: [...leftNodes, ...rightNodes, flowSeedNode],
@@ -41,13 +42,19 @@ export function computeLayout(
 	};
 }
 
-function buildEdges(edges: Edge[], seedId: string, leftEdges: Edge[]): FlowEdge[] {
+function buildEdges(
+	edges: Edge[],
+	seedId: string,
+	leftEdges: Edge[],
+	suggestedNodes: Set<string>
+): FlowEdge[] {
 	const leftSet = new Set(leftEdges.map((edge) => edge.id));
 	return edges.map((edge) => ({
 		...edge,
 		data: {
 			isSeedEdge: edge.source === seedId,
-			side: leftSet.has(edge.id) ? 'left' : 'right'
+			side: leftSet.has(edge.id) ? 'left' : 'right',
+			isDashed: suggestedNodes.has(edge.target)
 		},
 		selectable: false,
 		type: 'custom'

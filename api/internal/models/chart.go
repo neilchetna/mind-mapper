@@ -2,6 +2,7 @@ package models
 
 import (
 	"github.com/google/uuid"
+	"github.com/neilchetna/mind-mapper/pkg"
 	"gorm.io/gorm"
 )
 
@@ -15,7 +16,7 @@ type Chart struct {
 
 func (p *Chart) BeforeSave(tx *gorm.DB) (err error) {
 	if p.UserId == uuid.Nil {
-		return ErrUserIdNull
+		return pkg.ErrUserIdNull
 	}
 
 	return

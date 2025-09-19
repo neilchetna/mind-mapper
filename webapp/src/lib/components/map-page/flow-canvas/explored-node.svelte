@@ -7,7 +7,7 @@
 	const targetPosition = data.side === 'left' ? Position.Right : Position.Left;
 </script>
 
-<NodeRoot {selected}>
+<NodeRoot isSuggested={!!data.isSuggested} {selected}>
 	<Handle class="opacity-0" isConnectable={false} type="target" position={targetPosition} />
 	<p class="text-xs">{data.text}</p>
 	<Handle class="opacity-0" isConnectable={false} type="source" position={sourcePosition} />
